@@ -1,14 +1,19 @@
 var myApp = angular.module("myApp",["firebase"]);
 myApp.controller("tasksController", ["$scope", "$firebaseArray",
 function($scope, $firebaseArray) {
-  var ref = firebase.database().ref().child("achievements");
-  $scope.tasks = $firebaseArray(ref);
+  var tasksRef = firebase.database().ref().child("achievements");
+  $scope.tasks = $firebaseArray(tasksRef);
+
+  var usersRef = firebase.database().ref().child("users");
+  $scope.users = $firebaseArray(usersRef);
+  
+
  
- // $scope.update = function(user) {
-   //   var newmessage = {from:user.name || "anonymous",body:user.chat};
-     // console.log(newmessage);
-     // $scope.chats.$add(newmessage);
-     // user.chat = "";
- // }
+  $scope.update = function(user) {
+     var newuser = {imageURL:user.image,name:user.name,points:0};
+      console.log(newuser);
+      $scope.users.$add(newuser);
+      user.chat = "";
+  }
 }
 ]);
