@@ -11,7 +11,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<html>
+<html ng-app="viewHtml">
 <head>
   <meta charset=utf-8 />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,19 +23,18 @@ limitations under the License.
   <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 
   <link rel="stylesheet" href="main.css">
-
-
-
+  <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+  <script src="javascripts/app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
 <script>
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyAFXELk2phIbHfTSQv2mUAjyVu8sd3UuE8",
-    authDomain: "programmersonly-fbe41.firebaseapp.com",
-    databaseURL: "https://programmersonly-fbe41.firebaseio.com",
-    storageBucket: "programmersonly-fbe41.appspot.com",
-    messagingSenderId: "74269563617"
+    apiKey: "AIzaSyB4-C0lQGELjAZrNbLkkDJdRVl60zlyqRM",
+    authDomain: "creative7-cf629.firebaseapp.com",
+    databaseURL: "https://creative7-cf629.firebaseio.com",
+    storageBucket: "creative7-cf629.appspot.com",
+    messagingSenderId: "627109503092"
   };
   firebase.initializeApp(config);
 </script>
@@ -79,11 +78,16 @@ limitations under the License.
       firebase.auth().getRedirectResult().then(function(result) {
         if (result.credential) {
           // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-          var token = result.credential.accessToken;
+	  var token = result.credential.accessToken;
           // [START_EXCLUDE]
           document.getElementById('quickstart-oauthtoken').textContent = token;
+	  document.getElementById('sign_in_text').style.display = "none";
+          document.getElementById('view_account').style.display = "block";
         } else {
           document.getElementById('quickstart-oauthtoken').textContent = 'null';
+
+	  document.getElementById('sign_in_text').style.display = "block";
+          document.getElementById('view_account').style.display = "none";
           // [END_EXCLUDE]
         }
         // The signed-in user info.
@@ -123,6 +127,8 @@ limitations under the License.
           document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
           document.getElementById('quickstart-sign-in').textContent = 'Sign out';
           document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+	  document.getElementById('sign_in_text').style.display = "none";
+          document.getElementById('view_account').style.display = "block";
           // [END_EXCLUDE]
         } else {
           // User is signed out.
@@ -130,8 +136,7 @@ limitations under the License.
           document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
           document.getElementById('quickstart-sign-in').textContent = 'Sign in with GitHub';
           document.getElementById('quickstart-account-details').textContent = 'null';
-          document.getElementById('quickstart-oauthtoken').textContent = 'null';
-          // [END_EXCLUDE]
+	  // [END_EXCLUDE]
         }
         // [START_EXCLUDE]
         // document.getElementById('quickstart-sign-in').disabled = false;
@@ -145,7 +150,7 @@ limitations under the License.
     };
   </script>
 </head>
-<body>
+<body ng-controller="myCtrl">
 <!-- <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
   
@@ -166,11 +171,13 @@ limitations under the License.
           <h2 class="mdl-card__title-text">GitHub Authentication with Redirect</h2>
         </div>
         <div class="mdl-card__supporting-text mdl-color-text--grey-600"> -->
-          <p>Sign in with your GitHub account below.</p>
+          <p id="sign_in_text">Sign in with your GitHub account below.</p>
 
           <!-- Button that handles sign-in/sign-out -->
           <button class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-in">Sign in with GitHub</button>
 
+	  <button class="mdl-button mdl-js-button mdl-button--raised" id="view_account" ng-click="goToAccount()">Go To Account</button>
+	 
           <!-- Container where we'll display the user details -->
           <div class="quickstart-user-details-container">
             Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
