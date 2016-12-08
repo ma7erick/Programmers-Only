@@ -44,8 +44,23 @@ function($scope, $firebaseArray, $location) {
 	else{
 	  $scope.currentUser.points = $scope.currentUser.points - task.points;
 	}   
-			
-	$scope.currentUser.ref().update({"ponits": $scope.currentUser.points});
+	console.log($scope.currentUser);
+	var thisUser = firebase.database().ref().child("users");
+	console.log(firebase.database().ref().child("users/"+$scope.currentUser.$id));
+	console.log(thisUser);
+	var userArray = $firebaseArray(usersRef);
+	userArray.$loaded()
+          .then(function() {
+            angular.forEach(userArray, function(thisuser) {
+              console.log(thisuser.userID, $scope.currentUser.userID);
+              if (thisuser.userID == $scope.currentUser.userID) {
+                thisuser.points == $scope.currentUser.points;
+	        thisuser.set($scope.currentUser.points);
+                console.log(thisuser);
+              }
+            })
+          });
+	//thisUser.$save($scope.currentUser);
   }
 
 

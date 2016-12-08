@@ -141,25 +141,24 @@
     <div class="row col-md-2">
       <h2>User</h2>
       Username: {{currentUser.username}}
-      <img ng-src="{{currentUser.imageURL}}">
+      <img width="150px" ng-src="{{currentUser.imageURL}}">
       Points: {{currentUser.points}}
-      User ID: {{currentUser.userID}}
       
     </div>
-    <div class="row col-md-8">
+    <div class="row col-md-7">
       <h1>Tasks</h1>
 
-      <ul>
-        <li ng-repeat='task in currentUser.tasks | orderBy:"points"'>
-        <input type="checkbox" ng-change="checkChanged(task)" ng-model="task.completed"></input>
-        {{task.name}} - {{task.points}}
+      <ul id="tasks">
+        <li style="padding-left: 3px; border: 1px solid black; margin-top:2px;" ng-repeat='task in currentUser.tasks | orderBy:"points"'>
+        <input type="checkbox"  ng-change="checkChanged(task)" ng-model="task.completed"></input>
+          {{task.name}} - {{task.points}}
         </li>
       </ul>
 	
     </div>
-    <div class="row col-md-2">
+    <div class="row col-md-3">
       <h3>Leader Board</h3>
-      <ul>
+      <ul id="leaderboard">
         <li ng-repeat="user in users | orderBy:'-points'">
 	{{user.username}} - {{user.points}}
       </ul>

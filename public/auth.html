@@ -155,14 +155,22 @@ limitations under the License.
 </head>
 <body id="myController" ng-app="myApp" ng-controller="tasksController">
 
-  <div class="container-fluid">
-    <div class="row col-md-12"></div>
+  <div id="navigation" class="container-fluid">
+    <div class="row col-md-12">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+	<button class="btn btn-large btn-primary" id="quickstart-sign-in">Sign in with your Github account</button>
+      </div>
+    </div>
   </div>
   <div class="conatiner">
-    <p id="sign_in_text">Sign in with your GitHub account below.</p>
-         
-    <button class="btn btn-primary" id="quickstart-sign-in">Sign in with GitHub</button>
     <!--<div class="quickstart-user-details-container">Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>-->
+    <div class="row col-md-12">
+      <div class="col-md-6">
+        <img class="img-rounded" width="1230" src="http://www.hercampus.com/sites/default/files/2014/11/24/economics-online-dating.jpg">
+      </div>
+      <div class="col-md-6"></div>
+    </div>
   </div>
 </body>
 </html>
