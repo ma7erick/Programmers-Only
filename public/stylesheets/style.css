@@ -3,6 +3,11 @@ body {
   font-size: 18px;
 }
 
+#title {
+  margin: 0px;
+  padding: 0px;
+}
+
 #tasks {
   text-align: left;
   padding-left: 80px;
