@@ -150,9 +150,10 @@
       <h1>Tasks</h1>
 
       <ul>
-      <li ng-repeat='task in tasks | orderBy:"points"'>
-      {{task.name}} - {{task.points}}
-      </li>
+        <li ng-repeat='task in tasks | orderBy:"points"'>
+        <input type="checkbox"></input>
+        {{task.name}} - {{task.points}}
+        </li>
       </ul>
 	
     </div>
