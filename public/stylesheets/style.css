@@ -1,8 +1,17 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+.container {
+  text-align: center;
 }
 
 a {
   color: #00B7FF;
+}
+
+#navigation {
+  background-color: purple;
+  padding: 10px;
 }
