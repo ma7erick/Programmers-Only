@@ -36,6 +36,19 @@ function($scope, $firebaseArray, $location) {
       });
   }
 
+  $scope.checkChanged = function(task) {
+	console.log("check changed - " + task.completed);
+	if(task.completed){
+          $scope.currentUser.points = $scope.currentUser.points + task.points;
+        }
+	else{
+	  $scope.currentUser.points = $scope.currentUser.points - task.points;
+	}   
+			
+	$scope.currentUser.ref().update({"ponits": $scope.currentUser.points});
+  }
+
+
   $scope.update = function(user) {
     console.log("updating new user: " + user);  
     //$scope.currentUser = user;
@@ -59,7 +72,7 @@ function($scope, $firebaseArray, $location) {
         if(!isduplicate) {
           var email = user.email;
           var username = email.substr(0, email.indexOf('@'));
-          var newuser = {imageURL: user.photoURL, points:0, username:username, userID:user.uid};
+          var newuser = {imageURL: user.photoURL, points:0, username:username, userID:user.uid, tasks:$scope.tasks};
           console.log(newuser);
           $scope.users.$add(newuser);
         };
