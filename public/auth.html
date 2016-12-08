@@ -80,15 +80,13 @@ limitations under the License.
           // This gives you a GitHub Access Token. You can use it to access the GitHub API.
 	  var token = result.credential.accessToken;
           // [START_EXCLUDE]
-          document.getElementById('quickstart-oauthtoken').textContent = token;
-	  document.getElementById('sign_in_text').style.display = "none";
-          document.getElementById('view_account').style.display = "block";
+          console.log(angular.element(document.getElementById('myController')).scope());
+	  //angular.element(document.getElementById('myController')).scope().goToAccount();
+ 	  document.getElementById('quickstart-oauthtoken').textContent = token;
         } else {
           document.getElementById('quickstart-oauthtoken').textContent = 'null';
 
-	  document.getElementById('sign_in_text').style.display = "block";
-          document.getElementById('view_account').style.display = "none";
-          // [END_EXCLUDE]
+	  document.getElementById('sign_in_text').style.display = "block";          // [END_EXCLUDE]
         }
         // The signed-in user info.
         var user = result.user;
@@ -123,14 +121,18 @@ limitations under the License.
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
           var providerData = user.providerData;
-//	  angular.element(document.getElementById("#myController")).injector().update(user);
+	  console.log("auth.html user: ");
+	  console.log(user.email);
+	  angular.element(document.getElementById("myController")).scope().update(user);
           // [START_EXCLUDE]
           document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
           document.getElementById('quickstart-sign-in').textContent = 'Sign out';
           document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
 	  document.getElementById('sign_in_text').style.display = "none";
           document.getElementById('view_account').style.display = "block";
-          // [END_EXCLUDE]
+         // angular.element(document.getElementById('myController')).scope().goToAccount();
+	  //angular.element(document.getElementById("myController")).scope().update(user);
+	  // [END_EXCLUDE]
         } else {
           // User is signed out.
           // [START_EXCLUDE]
@@ -160,8 +162,7 @@ limitations under the License.
     <p id="sign_in_text">Sign in with your GitHub account below.</p>
          
     <button class="btn btn-primary" id="quickstart-sign-in">Sign in with GitHub</button>
-    <button class="btn btn-primary" id="view_account" ng-click="goToAccount()">Go To Account</button>
-    <div class="quickstart-user-details-container">Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>
+    <!--<div class="quickstart-user-details-container">Firebase sign-in status: <span id="quickstart-sign-in-status">Unknown</span>-->
   </div>
 </body>
 </html>

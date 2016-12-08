@@ -18,20 +18,133 @@
     };
     firebase.initializeApp(config);
   </script>
+  <script text="text/javascript">
+    /**
+     * Function called when clicking the Login/Logout button.
+     */
+    // [START buttoncallback]
+    function toggleSignIn() {
+      if (!firebase.auth().currentUser) {
+        // [START createprovider]
+        var provider = new firebase.auth.GithubAuthProvider();
+        console.log("provider: " + provider);
+        // [END createprovider]
+        // [START addscopes]
+        provider.addScope('repo');
+        // [END addscopes]
+        // [START signin]
+        firebase.auth().signInWithRedirect(provider);
+        // [END signin]
+      } else {
+        // [START signout]
+        firebase.auth().signOut();
+        // [END signout]
+      }
+      // [START_EXCLUDE]
+      // document.getElementById('quickstart-sign-in').disabled = true;
+      // [END_EXCLUDE]
+    }
+    // [END buttoncallback]
+    function initApp() {
+      // Result from Redirect auth flow.
+      // [START getidptoken]
+      firebase.auth().getRedirectResult().then(function(result) {
+        if (result.credential) {
+          // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+          var token = result.credential.accessToken;
+          // [START_EXCLUDE]
+          console.log(angular.element(document.getElementById('myController')).scope());
+          //angular.element(document.getElementById('myController')).scope().goToAccount();
+          document.getElementById('quickstart-oauthtoken').textContent = token;
+        } else {
+          document.getElementById('quickstart-oauthtoken').textContent = 'null';
+
+          document.getElementById('sign_in_text').style.display = "block";          // [END_EXCLUDE]
+        }
+        // The signed-in user info.
+        var user = result.user;
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // [START_EXCLUDE]
+        if (errorCode === 'auth/account-exists-with-different-credential') {
+          alert('You have already signed up with a different auth provider for that email.');
+          // If you are using multiple auth providers on your app you should handle linking
+          // the user's accounts here.
+        } else {
+          console.error(error);
+        }
+        // [END_EXCLUDE]
+      });
+      // [END getidptoken]
+      // Listening for auth state changes.
+      // [START authstatelistener]
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+	  angular.element(document.getElementById("myController")).scope().getUser(user);
+          console.log("auth.html user: ");
+          console.log(user.email);
+         // angular.element(document.getElementById("myController")).scope().goToHome();
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+          document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+          document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '');
+          document.getElementById('sign_in_text').style.display = "none";
+          document.getElementById('view_account').style.display = "block";
+         // angular.element(document.getElementById('myController')).scope().goToAccount();
+          //angular.element(document.getElementById("myController")).scope().update(user);
+          // [END_EXCLUDE]
+        } else {
+          // User is signed out.
+          // [START_EXCLUDE]
+           angular.element(document.getElementById("myController")).scope().goToHome();
+	  document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+          document.getElementById('quickstart-sign-in').textContent = 'Sign in with GitHub';
+          document.getElementById('quickstart-account-details').textContent = 'null';
+          // [END_EXCLUDE]
+        }
+        // [START_EXCLUDE]
+        // document.getElementById('quickstart-sign-in').disabled = false;
+        // [END_EXCLUDE]
+      });
+      // [END authstatelistener]
+      document.getElementById('quickstart-sign-out').addEventListener('click', toggleSignIn, false);
+    }
+    window.onload = function() {
+      initApp();
+    };
+  </script>
 </head>
-<body ng-app="myApp" ng-controller="tasksController">
+<body id="myController" ng-app="myApp" ng-controller="tasksController">
   <div class="container-fluid" id="navigation">
     <div class="row col-md-12">
       <div class="col-md-10"></div>
       <div class="col-md-2">
-        <button class="btn btn-primary">Sign Out</button>
+        <button id="quickstart-sign-out"class="btn btn-primary">Sign Out</button>
       </div>
     </div>
   </div>
   <div class="container">
     <div class="row col-md-2">
       <h2>User</h2>
-    
+      Username: {{currentUser.username}}
+      <img ng-src="{{currentUser.imageURL}}">
+      Points: {{currentUser.points}}
+      User ID: {{currentUser.userID}}
+      
     </div>
     <div class="row col-md-8">
       <h1>Tasks</h1>
@@ -45,7 +158,10 @@
     </div>
     <div class="row col-md-2">
       <h3>Leader Board</h3>
-
+      <ul>
+        <li ng-repeat="user in users | orderBy:'-points'">
+	{{user.username}} - {{user.points}}
+      </ul>
 
     </div>
   </div>
