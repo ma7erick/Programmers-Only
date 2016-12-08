@@ -150,8 +150,8 @@
       <h1>Tasks</h1>
 
       <ul>
-        <li ng-repeat='task in tasks | orderBy:"points"'>
-        <input type="checkbox"></input>
+        <li ng-repeat='task in currentUser.tasks | orderBy:"points"'>
+        <input type="checkbox" ng-change="checkChanged(task)" ng-model="task.completed"></input>
         {{task.name}} - {{task.points}}
         </li>
       </ul>
