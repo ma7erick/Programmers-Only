@@ -4,15 +4,15 @@
   <link rel="stylesheet" href="stylesheets/style.css">
   <link href="https://fonts.googleapis.com/css?family=Armata|Permanent+Marker|Roboto" rel="stylesheet">
   <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
-  <script src="../javascripts/app.js"></script>
+  <script src="javascripts/db.js"></script>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="tasksController">
   <div class="container">
     <div class="row">
       <h1>Tasks</h1>
 
       <ul>
-      <li ng-repeat='task in task'>
+      <li ng-repeat='task in tasks'>
       {{task.name}} - {{task.points}}
       </li>
       </ul>
